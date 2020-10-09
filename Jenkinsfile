@@ -7,6 +7,8 @@ pipeline {
         stage("build"){
             steps{
                sh "docker build -t harbor.tkgi.vxrail.local/demo/hello-golang:$BUILD_NUMBER ."
+               sh "docker login harbor.tkgi.vxrail.local --username $HARBOR_USERNAME --password $HARBOR_PASSWORD"
+               sh "docker push harbor.tkgi.vxrail.local/demo/hello-golang:$BUILD_NUMBER"
             }
         }
 
@@ -18,7 +20,7 @@ pipeline {
 
         stage("deploy"){
             steps{
-                echo "deploy the app ..."
+                sh "kubectl cluster-info"
             }
         }
     }
