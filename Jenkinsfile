@@ -24,6 +24,7 @@ pipeline {
                 sh "tkgi login -a api.tkgi.vxrail.local -u aushafy -k -p P@ssw0rd"
                 sh "tkgi get-credentials cluster-small"
                 sh "kubectl get nodes"
+                sh "kubectl apply -f deployment.yaml"
                 echo "deploy success to cluster-small"
 
             }
