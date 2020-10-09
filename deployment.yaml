@@ -16,7 +16,7 @@ spec:
         - name: hello-golang
           image: harbor.tkgi.vxrail.local/demo/hello-golang:${BUILD_NUMBER}
           ports:
-            containerPort: 8080
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
