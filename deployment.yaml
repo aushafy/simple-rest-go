@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hello-golang
-          image: harbor.tkgi.vxrail.local/demo/hello-golang:${BUILD_NUMBER}
+          image: harbor.tkgi.vxrail.local/demo/hello-golang:latest
           ports:
             - containerPort: 8080
 ---
