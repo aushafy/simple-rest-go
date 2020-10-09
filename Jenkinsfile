@@ -6,7 +6,7 @@ pipeline {
 
         stage("build"){
             steps{
-                echo "build stage ..."
+               docker build -t harbor.tkgi.vxrail.local/demo/hello-golang:$BUILD_NUMBER
             }
         }
 
