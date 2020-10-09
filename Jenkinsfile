@@ -21,7 +21,6 @@ pipeline {
 
         stage("deploy"){
             steps{
-                sh "kubectl config use-context cluster-small"
                 sh "kubectl apply -f deployment.yaml -n prod"
                 echo "deploy success to cluster-small"
             }
