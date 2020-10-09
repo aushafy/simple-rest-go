@@ -21,6 +21,7 @@ pipeline {
 
         stage("deploy"){
             steps{
+                sh "tkgi get-credentials cluster-small"
                 sh "kubectl get nodes"
                 echo "deploy success to cluster-small"
 
