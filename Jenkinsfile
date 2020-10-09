@@ -21,6 +21,7 @@ pipeline {
 
         stage("deploy"){
             steps{
+                sh "tkgi login -a api.tkgi.vxrail.local -u aushafy -k -p P@ssw0rd"
                 sh "tkgi get-credentials cluster-small"
                 sh "kubectl get nodes"
                 echo "deploy success to cluster-small"
