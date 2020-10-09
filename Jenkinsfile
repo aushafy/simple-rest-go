@@ -21,7 +21,8 @@ pipeline {
 
         stage("deploy"){
             steps{
-                sh "whoami"
+                sh "kubectl get nodes"
+                echo "deploy success to cluster-small"
 
             }
         }
