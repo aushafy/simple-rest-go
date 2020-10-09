@@ -21,8 +21,8 @@ pipeline {
 
         stage("deploy"){
             steps{
-                sh "kubectl apply -f deployment.yaml -n prod"
-                echo "deploy success to cluster-small"
+                sh "whoami"
+
             }
         }
     }
