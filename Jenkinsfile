@@ -2,10 +2,6 @@ pipeline {
 
     agent any
 
-    environment {
-        // if any env variable write down here!Q!!
-    }
-
     stages{
 
         stage("build"){
