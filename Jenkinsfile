@@ -28,7 +28,7 @@ pipeline {
 		])
                 sh "tkgi login -a api.tkgi.vxrail.local -u $TKGI_USERNAME -k -p $TKGI_PASSWD"
                 sh "tkgi get-credentials cluster-small"
-                sh "kubectl apply -f deployment.yaml"
+                sh "kubectl apply -f deployment.yaml -n dev"
             }
         }
     }
