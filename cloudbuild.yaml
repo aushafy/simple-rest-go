@@ -9,9 +9,9 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/DOCKER_IMAGE/${IMAGE_NAME}/g" deployment.yaml
+     sed "s/DOCKER_IMAGE/${_IMAGE_NAME}/g" deployment.yaml
 substitutions:
-    IMAGE_NAME: 'gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA'
+    _IMAGE_NAME: gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
