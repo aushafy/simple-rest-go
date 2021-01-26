@@ -8,5 +8,6 @@ steps:
   - run
   - --filename=deployment.yaml
   - --location=us-central1-b
-  - --image=gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA
   - --cluster=hello-cloudbuild
+  env:
+  - 'DOCKER_IMAGE=gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA'
