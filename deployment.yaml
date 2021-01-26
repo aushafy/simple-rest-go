@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hello-golang
-          image:   
+          image: gcr.io/mylab-287606/github.com/aushafy/hello-golang-gingonic@sha256:654c3e33a7f12c47237086afbbe566230536d0ec0359c1cb06de111699d5f0ab
           ports:
             - containerPort: 8080
 ---
