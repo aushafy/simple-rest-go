@@ -10,4 +10,4 @@ steps:
   - --app=hello-golang
   - --expose=8080
   - --location=asia-southeast2-a
-  - --cluster=production-cluster
+  - --cluster=development-cluster
