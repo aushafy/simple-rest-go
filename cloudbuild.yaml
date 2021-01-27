@@ -3,30 +3,11 @@ steps:
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA']
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: /bin/sh
+- name: 'gcr.io/cloud-builders/gke-deploy'
   args:
-  - '-c'
-  - |
-     #export new image to a IMAGE_NAME variable
-     export IMAGE_NAME=gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA
-
-     # used to change manifest image name
-     sed -i "s/DOCKER_IMAGE/${IMAGE_NAME}/g" deployment.yaml
-     
-     # run bash script to choose which cluster to deploy based on branch name
-     chmod +x ./cluster.sh
-     ./cluster.sh
-
-     # validate cluster
-     gcloud container clusters get-credentials $CLUSTER --internal-ip 34.101.110.106 --zone asia-southeast2-a
-
-     # deploy manifest
-     kubectl apply -f deployment.yaml
-
-# - name: 'gcr.io/cloud-builders/gke-deploy'
-#   args:
-#   - run
-#   - --filename=deployment.yaml
-#   - --location=us-central1-b
-#   - --cluster=hello-cloudbuild
+  - run
+  - --image=gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA
+  - --app=hello-golang
+  - --expose=8080
+  - --location=asia-southeast2-a
+  - --cluster=production-cluster
