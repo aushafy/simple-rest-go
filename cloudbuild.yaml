@@ -1,19 +1,32 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA']
-# This step generates the new manifest
+  args: ['push', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: /bin/sh
   args:
   - '-c'
   - |
-     export _IMAGE_NAME=gcr.io/$PROJECT_ID/$BRANCH_NAME-hello-golang:$SHORT_SHA
-     sed "s/DOCKER_IMAGE/${_IMAGE_NAME}/g" deployment.yaml
-- name: 'gcr.io/cloud-builders/gke-deploy'
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --location=us-central1-b
-  - --cluster=hello-cloudbuild
+     #export new image to a IMAGE_NAME variable
+     export IMAGE_NAME=gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA
+
+     # used to change manifest image name
+     sed -i "s/DOCKER_IMAGE/${IMAGE_NAME}/g" deployment.yaml
+     
+     # run bash script to choose which cluster to deploy based on branch name
+     chmod +x ./cluster.sh
+     ./cluster.sh
+
+     # validate cluster
+     gcloud container clusters get-credentials ${CLUSTER} --zone asia-southeast2-a
+
+     # deploy manifest
+     kubectl apply -f deployment.yaml
+
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+#   args:
+#   - run
+#   - --filename=deployment.yaml
+#   - --location=us-central1-b
+#   - --cluster=hello-cloudbuild
