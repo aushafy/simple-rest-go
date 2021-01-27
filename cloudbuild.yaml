@@ -19,7 +19,7 @@ steps:
      ./cluster.sh
 
      # validate cluster
-     gcloud container clusters get-credentials $CLUSTER --zone asia-southeast2-a
+     gcloud container clusters get-credentials $CLUSTER --internal-ip 34.101.110.106 --zone asia-southeast2-a
 
      # deploy manifest
      kubectl apply -f deployment.yaml
