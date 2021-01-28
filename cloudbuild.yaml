@@ -14,5 +14,5 @@ steps:
   - '-c'
   - |
     set -x && \
-    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c $_CLUSTER_NAME
+    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c $_CLUSTER
     
