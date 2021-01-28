@@ -19,4 +19,4 @@ steps:
     elif [ $BRANCH_NAME == dev ]; then \
     export CLUSTER_NAME=development-cluster
     fi
-    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c $CLUSTER_NAME
+    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c ${CLUSTER_NAME}
