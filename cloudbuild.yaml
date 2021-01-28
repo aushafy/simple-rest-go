@@ -14,4 +14,9 @@ steps:
   - '-c'
   - |
     set -x && \
-    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c production-cluster
+    if [ $BRANCH_NAME == main ]; then \
+    export CLUSTER_NAME=production-cluster
+    elif [ $BRANCH_NAME == dev ]; then \
+    export CLUSTER_NAME=development-cluster
+    fi
+    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c $CLUSTER_NAME
