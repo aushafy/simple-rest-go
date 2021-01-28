@@ -1,13 +1,24 @@
 steps:
+# create docker image with Short SHA as a docker image tag
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA', '.']
+
+# push docker image to a container image repository / artifactory
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA']
+
+# deploy to Kubernetes cluster
 - name: 'gcr.io/cloud-builders/gke-deploy'
+  entrypoint: /bin/bash
   args:
-  - run
-  - --image=gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA
-  - --app=hello-golang
-  - --expose=8080
-  - --location=asia-southeast2-a
-  - --cluster=development-cluster
+  - '-c'
+  - |
+    set -x && \
+    gke-deploy run -i gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA -a hello-golang -x 8080 -l asia-southeast2-a -c production-cluster
+
+
+  # - --image=gcr.io/$PROJECT_ID/hello-golang:$SHORT_SHA
+  # - --app=hello-golang
+  # - --expose=8080
+  # - --location=asia-southeast2-a
+  # - --cluster=development-cluster
