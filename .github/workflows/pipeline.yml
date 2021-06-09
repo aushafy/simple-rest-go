@@ -1,0 +1,29 @@
+name: CI/CD Pipeline Golang
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag aushafy/simple-rest-go:latest
+    - name: Login to docker hub
+      run: docker login --username aushafy --password ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    - name: Push to registry
+      run: docker push aushafy/simple-rest-go:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: deploy docker from docker hub
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          sudo docker run -d -p 80:80 aushafy/simple-rest-go:latest
+        host: ${{ secrets.EC2_HOST }}
+        user: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
